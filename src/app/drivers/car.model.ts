@@ -1,3 +1,4 @@
+// Car Model as used throughout system
 export class Car {
 	public model: String;
 	public year: Number;
