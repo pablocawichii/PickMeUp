@@ -6,6 +6,7 @@ import { Subject, Observable } from 'rxjs'
 
 import { AngularFireDatabase } from '@angular/fire/database';
 
+// Local Instance of DB
 @Injectable()
 export class PickupsService {
 	pickupsChanged = new Subject<Pickup[]>();
@@ -18,6 +19,7 @@ export class PickupsService {
 
 	}
 
+  // Make DB pickups into Pickup Model
 	initOb() {
 		this.dbPickups = this.db.list('pickups').snapshotChanges().pipe(
 			map(pickups=>
@@ -34,6 +36,7 @@ export class PickupsService {
 			);
 	}
 
+  // Retrieve Pickups from db
 	getAllPickups(){
 		return this.db.list('pickups').snapshotChanges()
 		.pipe(
@@ -50,11 +53,13 @@ export class PickupsService {
 			)
 	}
 
+  // retrieve pickup from db
 	getPick(id: string){
 
 		return this.db.list('pickups/'+id).snapshotChanges()
 	}
 
+  // Retrieve unclaimed pickups only
 	getUnclaimedPickups() : Observable<any[]>{
 		return this.db.list('pickups').snapshotChanges().pipe(
 			map(pickups=>
@@ -71,12 +76,14 @@ export class PickupsService {
 			)
 	}
 
+  // Set the local list of pickups
 	setPickups(pickups: Pickup[]){
 		this.pickups = pickups;
 		console.log(this.pickups.valueOf())
 		this.pickupsChanged.next(this.pickups.slice());
 	}
 
+  // return a reference to a pickup
 	getRef(id: string) {
 		let pickup;
 		return this.db.list('pickups/'+id).snapshotChanges().pipe(			
@@ -85,31 +92,37 @@ export class PickupsService {
 		
 	}
 
+  // Get local instance of pickups
 	getPickups() {
 		return this.pickups.slice();
 	}
 
+  // Get specific local pickup
 	getPickup(id: number) : Pickup {
 
 		return this.pickups[id];
 	}
 
+  // Claim specific local pickup
 	claimPickup(id:number, driverid: string) {
 		this.pickups[id].status = 'claimed';
 		this.pickups[id].driver = driverid
 		this.pickupsChanged.next(this.pickups.slice());	
 	}
 
+  // Add pickup locally
 	addPickup(pickup: Pickup) {
 		this.pickups.push(pickup);
 		this.pickupsChanged.next(this.pickups.slice());
 	}
 
+  // Update local pickup
 	updatePickup(index: number, pickup: Pickup) {
 		this.pickups[index] = pickup;
 		this.pickupsChanged.next(this.pickups.slice());
 	}
 
+  // Delete pickup locally
 	deletePickup(index: number) {
 		this.pickups.splice(index, 1);
 		this.pickupsChanged.next(this.pickups.slice());
