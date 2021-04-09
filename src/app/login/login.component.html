@@ -1,18 +1,22 @@
+<!--LOGIN FORM-->
 <h1>Login</h1>
 <div class="home_page">
 
 <div class="" id="non-clientArea">
 	<hr>
 	<div *ngIf="!(authenticationService.userData | async)">
+    
+      <!--TEXT AREA - ADD USER CREDENTIALS-->
 	    <input class="textArea centerItem" type="text" [(ngModel)]="email" placeholder="Email">
 	    <input class="textArea centerItem" type="password" [(ngModel)]="password" placeholder="Password">
-
 	   	<hr>
-
 	    <div class="row" style="margin: 0 auto; width: 150px">
-	    	
+        
+	    <!--BUTTON TO SIGN UP/REGISTER-->
 	    <button class="blueBtn ovalBtn btn" (click)="signUp()">Sign Up</button>
 	    <span>&nbsp;&nbsp;</span>
+        
+        <!--BUTTON TO SIGN IN/LOGIN-->
 	    <button class="blueBtn ovalBtn btn" (click)="signIn()">Login</button>
 	    </div>
 	    <hr>
