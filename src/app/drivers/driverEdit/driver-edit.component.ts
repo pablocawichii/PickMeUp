@@ -1,3 +1,5 @@
+/*IMPORTS FROM FILES - NEEDED FOR THE DISPLAYING THE DATA FROM THE DATABASE*/
+/*PULLS AND SAVES DATA FROM DATABASE*/
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { DriversService } from '../drivers.service'
@@ -56,6 +58,7 @@ export class DriverEditComponent implements OnInit {
 	if(driver['cars']) {
 	for ( let car of driver.cars) {
 	  driverCars.push(
+      /*VEHICLE FORM*/
 	    new FormGroup({
 	      'model': new FormControl(car.model, Validators.required),
 	      'year': new FormControl(car.year, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
@@ -66,7 +69,7 @@ export class DriverEditComponent implements OnInit {
 	}
 	}	
     
-
+    /*DRIVER FORM*/
     this.driverForm = new FormGroup({
       'name': new FormControl(driverName, Validators.required),
       'email': new FormControl(driverEmail, Validators.required),
