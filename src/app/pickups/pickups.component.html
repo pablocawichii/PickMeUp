@@ -1,15 +1,24 @@
-
+<!--PICK UP PAGE - DISPLAYS A LIST OF ALL CURRENT REQUESTS-->
 <div style=" width: 300px; margin: 0 auto;" class="" >
+
+<!--HEADER-->
 <h1 style=" width: 130px; margin: 0 auto;">Pickups</h1>
+<!--BUTTON TO ADD A NEW REQUEST-->
 <button style="width: 100px; margin: 10px auto; display: block;" class="btn btn-primary" (click)="newPickup()"> New Pickup </button>
 
+<!--2 COLUMN TABLE TO DISPLAY THE REQUESTS-->
 <table *ngIf="auth.currentPriv == 'driver'" width="100%">
 	<tr><hr></tr>
+  
+  <!--TABLE HEADERS-->
 	<tr>
 		<th width="75%">Time since Request</th>
 		<th width="25%">More Info</th>
 	</tr>
+  
+  <!--DATA PULLED FROM THE DATABASE, DISPLAYED ON THE TABLE-->
 	<tr *ngFor="let pickup of listOfPickups | async">
+    <!--TIME DETAILS OF THE REQUEST-->
 		<td>{{ currentDate.valueOf() - pickup.dateTimeSeconds }}</td>
 		<td><button style="width: 35px; margin: 0 auto; display: block" class="btn btn-primary" routerLink="/pickups/{{ pickup.id }}"> X </button></td>
 	</tr>
