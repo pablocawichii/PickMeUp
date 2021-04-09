@@ -5,6 +5,7 @@ import { DriversService } from './drivers.service'
 import { Driver } from './drivers.model'
 import { Loc } from '../locations.model'
 
+// Driver DB Connection
 @Injectable({providedIn: 'root'})
 export class DriverStorageService {
 
@@ -12,7 +13,7 @@ export class DriverStorageService {
 	}
 
 
-
+  // Updates all driveres according to local system
 	saveAllDrivers() {
 		const drivers = this.driversService.getDrivers();
 		this.http.put('https://pickmeup-307305-default-rtdb.firebaseio.com/drivers.json',
@@ -22,6 +23,7 @@ export class DriverStorageService {
 			})
 	}
 
+  //  Adds new driver
 	saveDriver(driver: Driver){
 		const regex = /[.]/ig;
 		this.http.put('https://pickmeup-307305-default-rtdb.firebaseio.com/drivers/'+ driver.email.replace(regex, '') +'.json',
@@ -31,6 +33,7 @@ export class DriverStorageService {
 			})
 	}
 	
+  // Adds new driver by post request
 	saveDriverPost(driver: Driver){
 		this.http.post('https://pickmeup-307305-default-rtdb.firebaseio.com/drivers.json',
 			driver
@@ -43,6 +46,7 @@ export class DriverStorageService {
 
 	}
 
+  // Returns a specific driver
 	getDrivers(){
 		this.http.get<Driver[]>('https://pickmeup-307305-default-rtdb.firebaseio.com/drivers.json')
 		.pipe(
@@ -57,6 +61,7 @@ export class DriverStorageService {
 		})
 	}
 
+  // Update driver to current location
 	updateDriverLocation(uid: string) {
 		let location;
 		 if (navigator.geolocation) {
@@ -75,6 +80,7 @@ export class DriverStorageService {
 
 	}
 
+  // Retrieves Driver Location from DB
 	getDriverLocation(uid: string) {
 		this.http.get('https://pickmeup-307305-default-rtdb.firebaseio.com/drivers/' + 0 + '.json')
 		.subscribe(res => {
@@ -82,6 +88,8 @@ export class DriverStorageService {
 		})
 	}
 
+  
+  // Updates Driver in DB
 	updateDriverNonLocation(id: string, driver: Driver){
 		console.log(driver)
 		this.http.put('https://pickmeup-307305-default-rtdb.firebaseio.com/drivers/' + 0 + '.json'
