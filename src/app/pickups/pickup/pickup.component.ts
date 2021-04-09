@@ -19,6 +19,7 @@ import { GoogleMap, MapMarker, MapDirectionsService } from '@angular/google-maps
   templateUrl: './pickup.component.html',
   styleUrls: ['./pickup.component.css']
 })
+// A single Pickup Page
 export class PickupComponent implements OnInit {
 	pickup: Pickup = new Pickup({lat: 0, lng: 0}, new Date());
 	id: string;
@@ -53,16 +54,19 @@ export class PickupComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    // Get id from route
     this.route.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
       }
       )
 
+    // Update Drivers every 5 seconds.
     setInterval(() => {this.drivStorageService.getDrivers()}, 5000)
+    // Get changes from pickups service
     this.pickupsService.getPick(this.id)
     .subscribe((p)=> {
+            // Apply Changes to map
             p.forEach((k, ind) => {
               this.pickup[k.key] = k.payload.val()
               if(p.length == ind + 1) {
@@ -87,6 +91,7 @@ export class PickupComponent implements OnInit {
       
   }
 
+  // Depracated Function
   getData() {
     if(this.auth.currentPriv == 'driver' || this.pickup.status == 'claimed') {
         this.pickupsService.getAllPickups().pipe(
@@ -114,6 +119,7 @@ export class PickupComponent implements OnInit {
 
   }
 
+  // Gets the directions between two locations
   getDirections() {
       const request: google.maps.DirectionsRequest = {
         destination: this.markerPositions[0],
@@ -124,16 +130,22 @@ export class PickupComponent implements OnInit {
   
   }
 
+  // Sends claim request to db
   claim() {
     this.pickupsStorageService.pickupDriver(this.id, this.auth.data.uid)
   }
+  
+  // Sends unclaim request to db
   unclaim() {
     this.pickupsStorageService.unclaimPickup(this.id)
   }
 
+  // Sends change in status to db
   retrieved() {
     this.pickupsStorageService.retrieved(this.id)
   }
+  
+  // Sends change in status to db
   delivered() {
     this.pickupsStorageService.delivered(this.id)
     this.router.navigate(['/'])
