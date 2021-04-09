@@ -19,12 +19,14 @@ export class LoginComponent implements OnInit {
   	}
   }
 
+  // Signs up user
   signUp() {
     this.authenticationService.SignUp(this.email, this.password);
     this.email = ''; 
     this.password = '';
   }
 
+  // Signs In user
   signIn() {
     this.authenticationService.setPriv('driver')
     this.authenticationService.SignIn(this.email, this.password);
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
     this.password = '';
   }
 
+  // Signs out user
   signOut() {
     this.authenticationService.setPriv('anon')
     this.authenticationService.SignOut();
