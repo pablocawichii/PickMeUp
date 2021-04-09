@@ -10,10 +10,11 @@ const priv = ["anon", "driver", "cust"];
   providedIn: 'root'
 })
 
-
+// Authentication according to the Firebase Authentication Services Documentation.
 export class AuthenticationService {
   userData: Observable<firebase.User>;
   data: firebase.User
+  // Save current privilege of user on instance
   currentPriv = "anon"
 
   constructor(private angularFireAuth: AngularFireAuth, private router: Router, private dService: DriverStorageService) {
@@ -21,7 +22,8 @@ export class AuthenticationService {
     this.userData.subscribe(data=> {
     	this.data = data;
     })
-  	setInterval( () => {
+    // Update user location on DB only if driver As only driver location stored.
+    setInterval( () => {
       	if(this.currentPriv == 'driver') {
   			this.dService.updateDriverLocation(this.data.uid)
   		}
