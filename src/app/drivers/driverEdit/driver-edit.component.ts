@@ -12,6 +12,7 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
   templateUrl: './driver-edit.component.html',
   styleUrls: []
 })
+// Single Driver Edit Component 
 export class DriverEditComponent implements OnInit {
 	driver: Driver;
 	id: string
@@ -24,6 +25,8 @@ export class DriverEditComponent implements OnInit {
               private dbsService: DriverStorageService) { }
 
   ngOnInit(){
+    
+    // Get Id For Specific Driver
     this.route.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
@@ -33,7 +36,8 @@ export class DriverEditComponent implements OnInit {
       }
       )
   }
-
+  
+  // Initialize Form
   private initForm() {
     let driverName = '';
     let driverEmail = '';
@@ -41,13 +45,14 @@ export class DriverEditComponent implements OnInit {
     let driverCars = new FormArray([]);
     let driverCurrentCar = -1;
     
-
+  // Get Driver Information
 	const driver = this.dsService.getDriver(this.id);
 
 	driverName = driver.name
 	driverEmail = driver.email
 	driverStatus = driver.status;
 	driverCurrentCar = driver.currentCar;
+    // Create Dynamic Cars Form
 	if(driver['cars']) {
 	for ( let car of driver.cars) {
 	  driverCars.push(
@@ -71,6 +76,7 @@ export class DriverEditComponent implements OnInit {
     });
   }
 
+  // Save Driver Information
   onSubmit() {
     const name = this.driverForm.value['name'];
     const email = this.driverForm.value['email'];
@@ -82,6 +88,7 @@ export class DriverEditComponent implements OnInit {
     newDriver.cars = cars;
     newDriver.currentCar = currentCar;
 
+    // Update on DB
     this.dbsService.updateDriverNonLocation(this.id, newDriver);
 
     this.onCancel();
@@ -91,14 +98,17 @@ export class DriverEditComponent implements OnInit {
     return (<FormArray>this.driverForm.get('cars')).controls;
   }
 
+  // Remove Specific Car
   onDeleteCar(index: number) {
     (<FormArray>this.driverForm.get('cars')).removeAt(index);
   }
 
+  // Make that car the car that driver information will be shown on Customer Pickup
 	makeCurrentCar(index: number) {
 		this.formCurrentCar = index;
 	}
 
+  // Dynamically Create new Form Area for new car
   onAddCar() {
     (<FormArray>this.driverForm.get('cars')).push(
             new FormGroup({
@@ -110,6 +120,7 @@ export class DriverEditComponent implements OnInit {
             )
   }
 
+  // Cancel Driver Edit
   onCancel() {
     this.router.navigate(["./../.."], {relativeTo: this.route})
   }
