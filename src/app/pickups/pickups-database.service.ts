@@ -29,6 +29,7 @@ export class PickupStorageService {
 		// database().ref().on('value', snapshot => console.log(snapshot.val()));
 	}
 
+  // Save local pickups to db
 	savePickups() {
 		const pickups = this.pickupsService.getPickups();
 		this.http.put('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups.json',
@@ -38,6 +39,7 @@ export class PickupStorageService {
 			})
 	}
 
+  // Adds one pickup to db
 	addPickup(pickup: Pickup) {
 		this.http.post('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups.json',
 			pickup
@@ -47,7 +49,7 @@ export class PickupStorageService {
 			})
 	}
 
-
+  // Gets all pickups from db
 	getPickups(){
 		this.http.get<Pickup[]>('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups.json')
 		.pipe(			
@@ -63,6 +65,7 @@ export class PickupStorageService {
 		})
 	}	
 
+  // Update a specific pickup
 	updatePickup(id: number, pickup: Pickup){
 		this.http.put('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups/' + id + '.json'
 			, pickup)
@@ -71,6 +74,7 @@ export class PickupStorageService {
 		})
 	}
 
+  // Adds the driver for the pickup
 	pickupDriver(id: string, driverId: string) {
 		this.http.patch('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups/' + id + '.json'
 			, {driver: driverId, status: 'claimed'})
@@ -79,6 +83,7 @@ export class PickupStorageService {
 		})
 	}
 
+  // Removes the driver for the pickup
 	unclaimPickup(id: string) {
 		this.http.patch('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups/' + id + '.json'
 			, {driver: null, status: 'unclaimed'})
@@ -86,7 +91,8 @@ export class PickupStorageService {
 			console.log(res)
 		})
 	}
-
+  
+  // Change status to retrieved
 	retrieved(id: string) {
 		this.http.patch('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups/' + id + '.json'
 			, {status: 'retrieved'})
@@ -95,6 +101,7 @@ export class PickupStorageService {
 		})
 	}
 
+  // Change status to delivered
 	delivered(id: string) {
 		this.http.patch('https://pickmeup-307305-default-rtdb.firebaseio.com/pickups/' + id + '.json'
 			, {status: 'delivered'})
