@@ -1,4 +1,4 @@
-
+// Location in form understood by Google Maps
 export class Loc {
 	public lat: number;
 	public lng: number;
