@@ -37,7 +37,7 @@ export class MapComponent implements OnInit, OnDestroy {
   
   constructor(private locationsService: LocationsService, private dsService: DataStorageService, private drivStorageService: DriverStorageService, private driversService: DriversService) { }
 
-
+  // No longer allows users to add markers to map
   addMarker(event: google.maps.MapMouseEvent) {
     // this.locationsService.addLocation(event.latLng.toJSON())
     // this.markerPositions.push(event.latLng.toJSON());
@@ -49,7 +49,9 @@ export class MapComponent implements OnInit, OnDestroy {
     this.getUserLocation();
     this.drivStorageService.getDrivers();
     
+    // Update Drivers when drivers change
     this.subscription = this.driversService.driversChanged.subscribe(
+      // Update Driver Locations on Map 
       (drivers) => {
         this.markerPositions = []
         drivers.forEach(d => {
@@ -58,14 +60,15 @@ export class MapComponent implements OnInit, OnDestroy {
       }
     )
 
+    // Update Drivers every 5 seconds
     setInterval(
       () => {
-
         this.drivStorageService.getDrivers();
       }
       , 5000)
 
 
+    // Depracated Movement Simulation
     // setInterval(
     // 	() => {
     // 		for (var i = this.markerPositions.length - 1; i >= 0; i--) {
@@ -103,6 +106,7 @@ export class MapComponent implements OnInit, OnDestroy {
   	this.dsService.saveData();
   }
 
+  // Get current User location to show on map.
   getUserLocation() {
     // get Users current position
 
