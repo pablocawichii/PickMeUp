@@ -1,3 +1,4 @@
+/*IMPORTS FROM FILES - NEEDED FOR THE DISPLAYING THE DATA FROM THE DATABASE*/
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Subscription, Observable } from 'rxjs'
@@ -13,25 +14,26 @@ import { Router } from '@angular/router'
   templateUrl: './drivers.component.html',
   styleUrls: []
 })
-// Shows list of Drivers
 export class DriverComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   @ViewChild('f', {static: false}) ndForm: NgForm;
   drivers: Driver[]
   
+  
   constructor(private dsService: DriversService, private dstorage: DriverStorageService) { }
 
+  /*GETS THE DATA OF THE DRIVER FROM THE DATABASE*/
   ngOnInit() {
     this.subscription = this.dsService.driversChanged.subscribe(drivers => {
       this.drivers = drivers;
     });
     this.dstorage.getDrivers()
   }
-
-  // Adds new Driver
+  
+  /*ADD A DRIVER TO THE DATABASE - CREATES VARIABLES FIRST*/
   addNewDriver(form: NgForm){
       const value = form.value;
-      const newDriver = new Driver(value.email, value.name, value.status);
+      const newDriver = new Driver(value.email, value.name, value.status); /*DRIVER OBJECT - STORES THE EMAIL, NAME AND STATUS*/
 
       this.dsService.addDrivers(newDriver);
 
@@ -44,11 +46,12 @@ export class DriverComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+   /*CLEARS THE FORM FIELD*/
   clear() {
     this.ndForm.reset();
   }
 
-  // Saves All Local Drivers to DB
+  /*SAVES THE DATA FROM THE WEBPAGE TO THE DATABASE*/
   save() {
     this.dstorage.saveAllDrivers();
   }
