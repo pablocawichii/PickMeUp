@@ -10,6 +10,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 	templateUrl: './header.component.html'
 })
 
+// This is the header navbar which is present on all pages.
 export class HeaderComponent implements OnInit, OnDestroy {
 	collapsed = true;
 	isAuthenticated ;
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 		});
 	}
 
-
+  // Logs out user
 	onLogout() {
 	    this.authenticationService.SignOut();
 		this.router.navigate(['/'])
@@ -35,6 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 	}
 
+  // Allows User to return to previous pages
 	goBack() {
 		this.location.back()
 	}
