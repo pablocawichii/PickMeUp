@@ -13,6 +13,7 @@ import { Router } from '@angular/router'
   templateUrl: './drivers.component.html',
   styleUrls: []
 })
+// Shows list of Drivers
 export class DriverComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   @ViewChild('f', {static: false}) ndForm: NgForm;
@@ -27,6 +28,7 @@ export class DriverComponent implements OnInit, OnDestroy {
     this.dstorage.getDrivers()
   }
 
+  // Adds new Driver
   addNewDriver(form: NgForm){
       const value = form.value;
       const newDriver = new Driver(value.email, value.name, value.status);
@@ -46,6 +48,7 @@ export class DriverComponent implements OnInit, OnDestroy {
     this.ndForm.reset();
   }
 
+  // Saves All Local Drivers to DB
   save() {
     this.dstorage.saveAllDrivers();
   }
