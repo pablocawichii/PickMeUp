@@ -1,5 +1,6 @@
 import { Loc } from '../locations.model'
 import { Car } from './car.model'
+// Driver Model 
 export class Driver {
 	public uid?: string;
 	public id: string;
