@@ -6,6 +6,6 @@ export class Loc {
 	constructor(lat: number, lng: number){
 		this.lat = lat;
 		this.lng = lng;
-	};
+	}; 
 }
 
